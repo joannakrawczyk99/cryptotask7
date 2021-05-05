@@ -6,15 +6,16 @@ class Blockchain:
     difficulty = 2
 
     def __init__(self):
+        """
+        Defining a blockchain.
+        """
         self.unconfirmed_transactions = []
         self.chain = []
-        self.create_genesis_block()
+        self.create_block()
 
-    def create_genesis_block(self):
+    def create_block(self):
         """
-        A function to generate genesis block and appends it to
-        the chain. The block has index 0, previous_hash as 0, and
-        a valid hash.
+        Generating genesis block and appending it to the chain.
         """
         genesis_block = Block(0, [], time.time(), "0")
         genesis_block.hash = genesis_block.compute_hash()
@@ -26,11 +27,7 @@ class Blockchain:
 
     def add_block(self, block, proof):
         """
-        A function that adds the block to the chain after verification.
-        Verification includes:
-        * Checking if the proof is valid.
-        * The previous_hash referred in the block and the hash of latest block
-          in the chain match.
+        Adding block to the chain after verification.
         """
         previous_hash = self.last_block.hash
 
@@ -46,7 +43,7 @@ class Blockchain:
 
     def is_valid_proof(self, block, block_hash):
         """
-        Check if block_hash is valid hash of block and satisfies
+        Checking if block_hash is valid hash of block and satisfies
         the difficulty criteria.
         """
         return (block_hash.startswith('0' * Blockchain.difficulty) and
@@ -71,7 +68,7 @@ class Blockchain:
 
     def mine(self):
         """
-        This function serves as an interface to add the pending
+        Serves as an interface to add the pending
         transactions to the blockchain by adding them to the block
         and figuring out Proof Of Work.
         """
