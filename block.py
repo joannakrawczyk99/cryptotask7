@@ -5,10 +5,10 @@ class Block:
     def __init__(self, index, transactions, timestamp, previous_hash):
         """
         Defining a single block
-        :param index:
-        :param transactions:
-        :param timestamp:
-        :param previous_hash: for protecting entire chain integrity
+        :param index: an index of transaction
+        :param transactions: transaction that we want to add to blockchain
+        :param timestamp: stamp the block when it’s created
+        :param previous_hash: hashed version of recently approved block
         """
         self.index = index
         self.transactions = transactions

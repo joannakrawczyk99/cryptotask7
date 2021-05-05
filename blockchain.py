@@ -10,7 +10,7 @@ class Blockchain:
         Defining a blockchain.
         """
         self.unconfirmed_transactions = []
-        self.chain = []
+        self.chain = [] #an empty list that we add block to
         self.create_block()
 
     def create_block(self):
@@ -23,6 +23,9 @@ class Blockchain:
 
     @property
     def last_block(self):
+        """
+        :return: block that was added most recently
+        """
         return self.chain[-1]
 
     def add_block(self, block, proof):
