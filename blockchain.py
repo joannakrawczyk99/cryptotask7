@@ -9,7 +9,7 @@ class Blockchain:
         """
         Defining a blockchain.
         """
-        self.unconfirmed_transactions = []
+        self.pending_transactions = []
         self.chain = [] #an empty list that we add block to
         self.create_block()
 
@@ -17,9 +17,13 @@ class Blockchain:
         """
         Generating block and appending it to the chain.
         """
-        genesis_block = Block(0, [], time.time(), "0")
+        genesis_block = Block(0, "+100 PLN", time.time(), "0")
         genesis_block.hash = genesis_block.compute_hash()
         self.chain.append(genesis_block)
+
+        genesis_block2 = Block(1, "-20 PLN", time.time(), genesis_block.hash)
+        genesis_block2.hash = genesis_block2.compute_hash()
+        self.chain.append(genesis_block2)
 
     @property
     def last_block(self):
@@ -37,14 +41,14 @@ class Blockchain:
         if previous_hash != block.previous_hash:
             return False
 
-        if not self.is_valid_proof(block, proof):
+        if not self.is_valid(block, proof):
             return False
 
         block.hash = proof
         self.chain.append(block)
         return True
 
-    def is_valid_proof(self, block, block_hash):
+    def is_valid(self, block, block_hash):
         """
         Checking if block_hash is valid hash of block and satisfies
         the difficulty criteria.
@@ -67,26 +71,24 @@ class Blockchain:
         return computed_hash
 
     def add_new_transaction(self, transaction):
-        self.unconfirmed_transactions.append(transaction)
+        self.pending_transactions.append(transaction)
 
     def mine(self):
         """
-        Serves as an interface to add the pending
-        transactions to the blockchain by adding them to the block
-        and figuring out Proof Of Work.
+        Adding pending transactions to the blockchain.
         """
-        if not self.unconfirmed_transactions:
+        if not self.pending_transactions:
             return False
 
         last_block = self.last_block
 
         new_block = Block(index=last_block.index + 1,
-                          transactions=self.unconfirmed_transactions,
+                          transactions=self.pending_transactions,
                           timestamp=time.time(),
                           previous_hash=last_block.hash)
 
         proof = self.proof_of_work(new_block)
         self.add_block(new_block, proof)
 
-        self.unconfirmed_transactions = []
+        self.pending_transactions = []
         return new_block.index
