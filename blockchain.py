@@ -15,7 +15,7 @@ class Blockchain:
 
     def create_block(self):
         """
-        Generating genesis block and appending it to the chain.
+        Generating block and appending it to the chain.
         """
         genesis_block = Block(0, [], time.time(), "0")
         genesis_block.hash = genesis_block.compute_hash()
