@@ -9,7 +9,7 @@ blockchain = Blockchain()
 
 
 @app.route('/', methods=['GET'])
-def get_chain():
+def get_chain_data():
     """
     Defining web app, creating local blockchain, creating endpoint for displaying info of blockchain.
     :return: info about blockchain

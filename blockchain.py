@@ -32,7 +32,7 @@ class Blockchain:
         """
         return self.chain[-1]
 
-    def add_block(self, block, proof):
+    def add_new_block(self, block, proof):
         """
         Adding block to the chain after verification.
         """
@@ -88,7 +88,7 @@ class Blockchain:
                           previous_hash=last_block.hash)
 
         proof = self.proof_of_work(new_block)
-        self.add_block(new_block, proof)
+        self.add_new_block(new_block, proof)
 
         self.pending_transactions = []
         return new_block.index
